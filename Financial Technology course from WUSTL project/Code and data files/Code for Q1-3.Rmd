@@ -1,0 +1,102 @@
+---
+title: "Problem Set 4"
+author: "Jihua Zhang"
+date: "2024-04-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Q1
+```{r}
+# Load required libraries
+library(dplyr)
+library(ggplot2)
+
+# Load the Opportunity insights spending data
+OI_spend_city <- read.delim2("OI_spend_city.txt", header = TRUE, sep =",", dec = ".")
+
+# Generate a "date" variable from year, month, day
+OI_spend_city$date <- as.Date(with(OI_spend_city, paste(year, month, day, sep="-")), "%Y-%m-%d")
+
+tail(OI_spend_city)
+
+# Transforming growth rate columns to numeric
+OI_spend_city$spend_all <- as.numeric(OI_spend_city$spend_all)
+OI_spend_city$spend_inperson <- as.numeric(OI_spend_city$spend_inperson)
+
+# Report summary statistics for the growth rates of all spending and in-person spending
+summary(OI_spend_city$spend_all)
+summary(OI_spend_city$spend_inperson)
+
+# Plot the growth rates of all spending and in-person spending
+
+ggplot(OI_spend_city, aes(x=date)) +
+  geom_line(aes(y=spend_all, colour="All Spending")) +
+  geom_line(aes(y=spend_inperson, colour="In-Person Spending")) +
+  labs(title="Growth Rates of All Spending and In-Person Spending", 
+       x="Date", y="Growth Rate") +
+  theme_minimal() +
+  scale_colour_manual("", 
+                      breaks = c("All Spending", "In-Person Spending"),
+                      values = c("All Spending"="blue", "In-Person Spending"="red"))
+```
+## Q2
+```{r}
+# Add a column that shows "yyyy-mm"
+OI_spend_city$date_m <- format(OI_spend_city$date, "%Y-%m")
+
+# Drop the observations that are earlier than January 2019 or later than June 2022
+start_date <- as.Date("2019-01-01")
+end_date <- as.Date("2022-06-30")
+OI_spend_city <- OI_spend_city %>%
+  filter(date >= start_date & date <= end_date)
+
+# We can now look at the tail of the data to confirm the changes
+tail(OI_spend_city)
+```
+## Q3
+```{r}
+# Load the mapping dataset
+OI_city_fips <- read.delim2("OI_city_fips.txt", header = TRUE, sep =",", dec = ".")
+OI_city_fips
+# Merge the datasets by "cityid"
+OI_spend_city_merged <- merge(OI_spend_city, OI_city_fips, by = "cityid")
+
+# Check the first few rows of the merged dataset
+head(OI_spend_city_merged)
+```
+
+```{r}
+# For further analysis, we write this as a csv file and use Python to proceed.
+write.csv(OI_spend_city_merged, "OI_spend_city_merged.csv", row.names = FALSE)
+```
+
+
+
+
+
+
+
