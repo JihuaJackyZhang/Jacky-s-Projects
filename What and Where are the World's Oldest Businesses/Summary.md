@@ -35,7 +35,3 @@ The notebook is structured as follows:
 - Many of the oldest businesses are in industries related to food, drink, and services, which have consistently high demand over centuries.
 - Countries with long periods of political and economic stability tend to have more old businesses.
 - Europe and Asia host the majority of the world's oldest businesses.
-
-## How to Use
-
-To explore this analysis further, you can clone th
