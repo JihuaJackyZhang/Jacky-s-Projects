@@ -72,7 +72,3 @@ The dataset contains various aspects of the EV population, including:
 
 #### Conclusion
 Market size analysis and forecasting are essential for stakeholders in the EV industry to make informed decisions regarding production, infrastructure development, and policy formulation. The analysis of historical EV registration data provides valuable insights into market trends, growth patterns, and key factors driving market expansion. The forecasted values indicate a promising future for the EV market, with a projected surge in registrations in the coming years.
-
----
-
-This updated summary provides a comprehensive overview of the project, including key findings on electric ranges, and can be included in your GitHub repository to give context and insights to readers and potential collaborators.
